@@ -1,0 +1,18 @@
+[
+    {
+        "id":1,
+        "name":"Nagy Ádám",
+        "email":"nagyá@mlsz.com",
+        "job":"focista"
+    },{
+        "id":2,
+        "name":"Kocsis Ádám",
+        "email":"nagyá@mlsz.com",
+        "job":"focista"
+    },{
+        "id":3,
+        "name":"Dzsudzsák Balázs",
+        "email":"nagyá@mlsz.com",
+        "job":"focista"
+    }
+]
