@@ -1,19 +1,20 @@
 {
-  "name": "Joe's-test-package",
-  "version": "0.0.1",
-  "dependencies": {
-    "express": "^4.17.1",
-    "grunt": "0.4.5",
-    "mime-types": "~2.1.6",
-    "negotiator": "0.5.3",
-    "grunt-cli": "",
-    "grunt-contrib-watch": "",
-    "grunt-contrib-uglify": "",
-    "grunt-contrib-clean": "2.0.0",
-    "grunt-contrib-copy": "1.0.0",
-    "grunt-contrib-jshint": "2.1.0",
-    "grunt-contrib-imagemin": "3.1.0"
-  },
-  "description": "My first test package.",
-  "license": "MIT"
+    "name": "Joe's-test-package",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "^4.17.1",
+        "pug": "2.0.3",
+        "grunt": "1.0.3",
+        "mime-types": "~2.1.6",
+        "negotiator": "0.5.3",
+        "grunt-cli": "",
+        "grunt-contrib-watch": "",
+        "grunt-contrib-uglify": "",
+        "grunt-contrib-clean": "2.0.0",
+        "grunt-contrib-copy": "1.0.0",
+        "grunt-contrib-jshint": "2.1.0",
+        "grunt-contrib-imagemin": "3.1.0"
+    },
+    "description": "My first test package.",
+    "license": "MIT"
 }
