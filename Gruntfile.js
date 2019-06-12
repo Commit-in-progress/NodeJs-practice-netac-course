@@ -14,8 +14,8 @@ module.exports = function (grunt) {
         },
         watch: {
             scripts: {
-                files: ['src/**/*.js', 'src/**/*.css', 'src/**/*.html'],
-                tasks: ['uglify'],
+                files: ['src/**/*.js', 'src/**/*.css', 'src/**/*.html','src/**/*.pug'],
+                tasks: ['dev'],
                 options: {
                     spawn: false,
                 },
@@ -71,7 +71,7 @@ module.exports = function (grunt) {
 
     // Default task(s).
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('dev', ['jshint', 'clean', 'copy', 'uglify', 'imagemin']);
+    grunt.registerTask('dev', ['jshint', 'clean', 'copy', 'uglify']);
 
 
 };
