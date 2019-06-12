@@ -30,8 +30,8 @@ app.use(function (req, res, next) {
 // Definiáljuk a szerver működését.
 app.get('/', function (req, res) {
     res.render('index', {
-        title: 'Hey',
-        message: 'Hello there!'
+        title: 'Pug practice',
+        message: 'Szép nap van'
     })
 });
 
