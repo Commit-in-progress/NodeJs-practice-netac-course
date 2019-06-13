@@ -29,20 +29,30 @@ app.use(function (req, res, next) {
 
 // Definiáljuk a szerver működését.
 app.get('/', function (req, res) {
-    res.render('index', {
-        title: 'Pug practice',
-        message: 'Szép nap van'
-    })
+    handleUsers(req, res, false, function (allUsers) {
+        res.render('index', {
+            title: 'Pug practice',
+            message: 'Szép nap van',
+            users:allUsers
+        });
+    });
 });
 
 // Felhasználó modell.
-function handleUsers(req, res) {
+function handleUsers(req, res, next, callBack) {
     fs.readFile('./users.json', 'utf8', function (err, data) {
         if (err) throw err;
 
         //var path=req.url.split('/');
         var users = JSON.parse(data);
+
+        if (callBack) {
+            callBack(users);
+            return;
+        }
         var _user = {};
+
+        //ha nem kaptunk id-t
         if (!req.params.id) {
             _user = users;
         } else {

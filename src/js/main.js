@@ -13,5 +13,3 @@ function checkuser(user)
         return false;
     }
 }
-
-//c
