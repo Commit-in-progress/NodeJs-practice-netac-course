@@ -35,7 +35,11 @@ html(lang='')
         // .nav-collapse
     .container
       .starter-template
-        h1(class='my-h1')= title
+        h1(
+            id='h1-01'
+            data-ng-model='myModel'
+            class='my-h1'
+        )= title
         h2= message
         p.lead
           | Now you can start your own project with
@@ -45,4 +49,4 @@ html(lang='')
           | .
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
-    script(src='/all.js')
+    script(src='./js/all.js')
