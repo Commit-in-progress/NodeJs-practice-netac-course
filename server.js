@@ -1,8 +1,64 @@
 // Beolvassuk a szükséges csomagokat.
 var express = require("express");
 var fs = require("fs");
-var itf = require('./my_modules/itf_module');
+var mongoose = require('mongoose');
 
+// Kapcsolódás az adatbázishoz (mongoDb)
+mongoose.connect('mongodb://localhost/NodeJs-practice-netac-course', {
+    useNewUrlParser: true
+});
+
+// users tábla model.
+var users = require('./models/users');
+users.setConnection(mongoose);
+/*users.create({
+    name: "John Doe",
+    email: "JohnDoe@gmail.com",
+    phone: "06202965212",
+    address: "1122 Budapest Kis Utca 10",
+    role: 3,
+    meta: {
+        birthday: new Date("1994-08-02"),
+        hobby: "golf",
+    }
+}, function (saved) {
+    console.info("Saved model:", saved);
+});*/
+
+//Dokumentum törlése
+users.getModel().deleteOne({'name':new RegExp('jack','i')},function(err,rem){
+    if(err)
+        console.error(err);
+    else{
+        console.log(rem.result);
+    }
+})
+
+//Dokumentum frissítése.
+users.getModel().updateOne(
+    {name:new RegExp('jason','i')},
+    {girlFriend:'Kelly Rose'},
+    function(err,user){
+    if(err)
+        console.error(err);
+});
+
+//Első találat a feltételek alapján
+users.first({
+    "name": RegExp("jason", 'gi')
+}, function (users) {
+    if (users !== null) {
+        console.info("username: ", users.name);
+    } else {
+        console.info("no user!");
+    }
+});
+
+// Admin visszaadása.
+users.getModel().isAdmin(2,function (err, data) {
+    console.log(err);
+    console.log(data);
+});
 // Globális változók.
 var port = 3500;
 var staticDir = 'build/';
@@ -29,17 +85,17 @@ app.use(function (req, res, next) {
 
 // Definiáljuk a szerver működését.
 app.get('/', function (req, res) {
-    handleUsers(req, res, false, function (allUsers) {
+    handleusers(req, res, false, function (allusers) {
         res.render('index', {
             title: 'Pug practice',
             message: 'Szép nap van',
-            users:allUsers
+            users: allusers
         });
     });
 });
 
 // Felhasználó modell.
-function handleUsers(req, res, next, callBack) {
+function handleusers(req, res, next, callBack) {
     fs.readFile('./users.json', 'utf8', function (err, data) {
         if (err) throw err;
 
@@ -68,7 +124,7 @@ function handleUsers(req, res, next, callBack) {
 // Felhasználók beolvasása.
 app.get('/users/:id*?', function (req, res) {
     console.log(req.url);
-    handleUsers(req, res);
+    handleusers(req, res);
 });
 
 // Megadjuk, hogy a szerver melyik portot figyelje.

@@ -4,6 +4,7 @@
     "dependencies": {
         "express": "^4.17.1",
         "pug": "2.0.3",
+        "mongoose": "5.5.15",
         "grunt": "1.0.3",
         "mime-types": "~2.1.6",
         "negotiator": "0.5.3",
