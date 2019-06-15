@@ -26,39 +26,44 @@ users.setConnection(mongoose);
 });*/
 
 //Dokumentum törlése
-users.getModel().deleteOne({'name':new RegExp('jack','i')},function(err,rem){
-    if(err)
+users.getModel().deleteOne({
+    'name': new RegExp('jack', 'i')
+}, function (err, rem) {
+    if (err)
         console.error(err);
-    else{
+    else {
         console.log(rem.result);
     }
 })
 
 //Dokumentum frissítése.
-users.getModel().updateOne(
-    {name:new RegExp('jason','i')},
-    {girlFriend:'Kelly Rose'},
-    function(err,user){
-    if(err)
-        console.error(err);
-});
+users.getModel().updateOne({
+        name: new RegExp('jason', 'i')
+    }, {
+        girlFriend: 'Kelly Rose'
+    },
+    function (err, user) {
+        if (err)
+            console.error(err);
+    });
 
 //Első találat a feltételek alapján
 users.first({
     "name": RegExp("jason", 'gi')
 }, function (users) {
     if (users !== null) {
-        console.info("username: ", users.name);
+        console.info("username: ", users);
     } else {
         console.info("no user!");
     }
 });
 
 // Admin visszaadása.
-users.getModel().isAdmin(2,function (err, data) {
+users.getModel().isAdmin(2, function (err, data) {
     console.log(err);
     console.log(data);
 });
+
 // Globális változók.
 var port = 3500;
 var staticDir = 'build/';
