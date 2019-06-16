@@ -8,13 +8,16 @@ module.exports = function (grunt) {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
             build: {
-                src: 'src/**/*.js',
+                src: ['src/vendor/jquery/dist/jquery.min.js',
+                      'src/vendor/bootstrap/dist/js/bootstrap.min.js',
+                      'src/vendor/angular/angular.min.js',
+                      'src/js/*.js'],
                 dest: 'build/js/all.js'
             }
         },
         watch: {
             scripts: {
-                files: ['src/**/*.js', 'src/**/*.css', 'src/**/*.html','src/**/*.pug'],
+                files: ['src/**/*.js', 'src/**/*.css', 'src/**/*.html', 'src/**/*.pug'],
                 tasks: ['dev'],
                 options: {
                     spawn: false,
@@ -33,8 +36,14 @@ module.exports = function (grunt) {
                         dest: 'build/',
                         filter: 'isFile'
                     },
-    ],
-            },
+                    {
+                        expand: true,
+                        cwd: "src/",
+                        src: ['vendor/**'],
+                        dest: 'build/',
+                    }
+    ]
+            }
         },
 
         jshint: {
