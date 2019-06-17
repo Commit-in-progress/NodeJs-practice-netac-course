@@ -3,18 +3,19 @@ extends layout.pug
 block content
   .container
     .starter-template
-      h1(
-          id='h1-01'
-          data-ng-model='myModel'
-          class='my-h1'
-      )= title
+      h1= title
       h2(class=classes) Message: #{message}
-      p.lead&attributes(atts)
+      p.lead
         | Now you can start your own project with
         a(href='http://getbootstrap.com/', target='_blank') Bootstrap 4.3.1
         | . This plugin is a fork from
         a(href='https://github.com/le717/brackets-html-skeleton#readme') HTML Skeleton
         | .
+      .row(data-ng-controller='nameController')
+        .col-xs-3
+          input.form-control(data-ng-model='yourName')
+          h1 Hello {{yourName}}
+          hr
       ul
         each user in users
           li #{user.id}: #{user.name} - #{user.email}
