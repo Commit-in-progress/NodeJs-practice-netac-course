@@ -1,8 +1,9 @@
 {
   "name": "NodeJs-practice-netac-course",
   "dependencies": {
-     "bootstrap":"4.3.1",
-      "angular":"1.7.8",
-      "jquery":"3.4.1"
+    "bootstrap": "4.3.1",
+    "angular": "1.7.8",
+    "jquery": "3.4.1",
+    "angular-currency-filter": "https://github.com/cherryApp/angular-currency-filter.git"
   }
 }

@@ -1,5 +1,8 @@
-var superhero=angular.module("superhero",[]);
+// Fő modul definiálása.
+var superhero = angular.module("superhero", ["currencyModule"]);
 
-superhero.controller("nameController",["$scope", function($scope){
-  $scope.yourName="Joe";
+// Module futásának kezdete.
+superhero.run(["$http",function($http){
+  $http.defaults.headers.common['x-requested-with']=
+    'XMLHttpRequest';
 }]);

@@ -11,7 +11,9 @@ module.exports = function (grunt) {
         src: ['src/vendor/jquery/dist/jquery.min.js',
                       'src/vendor/bootstrap/dist/js/bootstrap.min.js',
                       'src/vendor/angular/angular.js',
-                      'src/js/*.js'],
+              'src/vendor/angular-currency-filter/currencyModule.js',
+                      'src/js/main.js',
+             'src/js/controllers/**.js'],
         dest: 'build/js/all.js'
       }
     },
@@ -92,7 +94,7 @@ module.exports = function (grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('dev', ['jshint', 'clean', 'copy', 'uglify','cssmin']);
+  grunt.registerTask('dev', ['jshint', 'clean', 'copy', 'uglify', 'cssmin']);
 
 
 };

@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 
 // Kapcsolódás az adatbázishoz (mongoDb)
 mongoose.connect('mongodb://localhost/NodeJs-practice-netac-course', {
-    useNewUrlParser: true
+  useNewUrlParser: true
 });
 
 // users tábla model.
@@ -27,41 +27,41 @@ users.setConnection(mongoose);
 
 //Dokumentum törlése
 users.getModel().deleteOne({
-    'name': new RegExp('jack', 'i')
+  'name': new RegExp('jack', 'i')
 }, function (err, rem) {
-    if (err)
-        console.error(err);
-    else {
-        console.log(rem.result);
-    }
+  if (err)
+    console.error(err);
+  else {
+    console.log(rem.result);
+  }
 })
 
 //Dokumentum frissítése.
 users.getModel().updateOne({
-        name: new RegExp('jason', 'i')
-    }, {
-        girlFriend: 'Kelly Rose'
-    },
-    function (err, user) {
-        if (err)
-            console.error(err);
-    });
+    name: new RegExp('jason', 'i')
+  }, {
+    girlFriend: 'Kelly Rose'
+  },
+  function (err, user) {
+    if (err)
+      console.error(err);
+  });
 
 //Első találat a feltételek alapján
 users.first({
-    "name": RegExp("jason", 'gi')
+  "name": RegExp("jason", 'gi')
 }, function (users) {
-    if (users !== null) {
-        console.info("username: ", users);
-    } else {
-        console.info("no user!");
-    }
+  if (users !== null) {
+    console.info("username: ", users);
+  } else {
+    console.info("no user!");
+  }
 });
 
 // Admin visszaadása.
 users.getModel().isAdmin(2, function (err, data) {
-    console.log(err);
-    console.log(data);
+  console.log(err);
+  console.log(data);
 });
 
 // Globális változók.
@@ -77,59 +77,62 @@ app.set('views', './src/view');
 // Statikus fájlok.
 app.use(express.static(staticDir));
 
-//app.use(function (req, res, next) {
-//    if (req.headers['x-requested-with'] == 'XMLHttpRequest') {
-//        res.send(JSON.stringify({
-//            'hello': 'world'
-//        }));
-//    } else {
-//        next();
-//    }
-//
-//});
+app.use(function (req, res, next) {
+
+  console.log(req.headers);
+
+  if (req.headers['x-requested-with'] == 'XMLHttpRequest') {
+    res.send(JSON.stringify({
+      'hello': 'world'
+    }));
+  } else {
+    next();
+  }
+
+});
 
 // Definiáljuk a szerver működését.
 app.get('/', function (req, res) {
-    handleusers(req, res, false, function (allusers) {
-        res.render('index', {
-            title: 'Pug practice',
-            message: 'Szép nap van',
-            users: allusers
-        });
+  handleusers(req, res, false, function (allusers) {
+    res.render('index', {
+      title: 'Pug practice',
+      message: 'Szép nap van',
+      users: allusers
     });
+  });
 });
 
 // Felhasználó modell.
 function handleusers(req, res, next, callBack) {
-    fs.readFile('./users.json', 'utf8', function (err, data) {
-        if (err) throw err;
+  fs.readFile('./users.json', 'utf8', function (err, data) {
+    if (err) throw err;
 
-        //var path=req.url.split('/');
-        var users = JSON.parse(data);
+    //var path=req.url.split('/');
+    var users = JSON.parse(data);
 
-        if (callBack) {
-            callBack(users);
-            return;
+    if (callBack) {
+      callBack(users);
+      return;
+    }
+    var _user = {};
+
+    //ha nem kaptunk id-t
+    if (!req.params.id) {
+      _user = users;
+    } else {
+      for (var k in users) {
+        if (req.params.id == users[k].id) {
+          _user = users[k];
         }
-        var _user = {};
-
-        //ha nem kaptunk id-t
-        if (!req.params.id) {
-            _user = users;
-        } else {
-            for (var k in users) {
-                if (req.params.id == users[k].id) {
-                    _user = users[k];
-                }
-            }
-        }
-        res.send(JSON.stringify(_user));
-    });
+      }
+    }
+    res.send(JSON.stringify(_user));
+  });
 }
 // Felhasználók beolvasása.
 app.get('/users/:id*?', function (req, res) {
-    console.log(req.url);
-    handleusers(req, res);
+  console.log(req.url);
+  handleusers(req, res);
 });
 
 // Megadjuk, hogy a szerver melyik portot figyelje.

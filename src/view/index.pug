@@ -4,18 +4,17 @@ block content
   .container
     .starter-template
       h1= title
-      h2(class=classes) Message: #{message}
-      p.lead
-        | Now you can start your own project with
-        a(href='http://getbootstrap.com/', target='_blank') Bootstrap 4.3.1
-        | . This plugin is a fork from
-        a(href='https://github.com/le717/brackets-html-skeleton#readme') HTML Skeleton
-        | .
-      .row(data-ng-controller='nameController')
+      .row(data-ng-controller='priceController')
         .col-xs-3
-          input.form-control(data-ng-model='yourName')
-          h1 Hello {{yourName}}
+          input.form-control(data-ng-model='yourPrice')
+          p A te árad: {{calcOwnPrice(yourPrice) | currencyFilter}}
+          p Más ára: {{calcOtherPrice(yourPrice) | currencyFilter}}
+          p Teljes ár: {{yourPrice | currencyFilter}}
           hr
+      .row(data-ng-controller='userController')
+        .col-xs-3
+          p {{yourPrice}}
+
       ul
         each user in users
           li #{user.id}: #{user.name} - #{user.email}
