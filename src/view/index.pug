@@ -2,7 +2,7 @@ extends layout.pug
 
 block content
   .container
-    .starter-template
+    .starter-div
       h1= title
       .row(data-ng-controller='priceController')
         .col-xs-3
@@ -10,11 +10,17 @@ block content
           p A te árad: {{calcOwnPrice(yourPrice) | currencyFilter}}
           p Más ára: {{calcOtherPrice(yourPrice) | currencyFilter}}
           p Teljes ár: {{yourPrice | currencyFilter}}
-          hr
-      .row(data-ng-controller='userController')
-        .col-xs-3
-          p {{yourPrice}}
 
-      ul
-        each user in users
-          li #{user.id}: #{user.name} - #{user.email}
+      .row(data-ng-controller='userController')
+        .col-sm-12
+          p {{yourPrice}}
+          table(class='table table-hover')
+            thead
+              tr
+                th(data-ng-repeat='th in ths') {{th}}
+            tbody
+            tr(data-ng-repeat='row in users')
+              td {{row._id}}
+              td {{row.name}}
+              td {{row.email}}
+              td {{row.phone}}

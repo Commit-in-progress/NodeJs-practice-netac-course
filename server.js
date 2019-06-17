@@ -1,29 +1,27 @@
 // Beolvassuk a szükséges csomagokat.
 var express = require("express");
-var fs = require("fs");
+var fs = require('fs');
 var mongoose = require('mongoose');
 
 // Kapcsolódás az adatbázishoz (mongoDb)
-mongoose.connect('mongodb://localhost/NodeJs-practice-netac-course', {
-  useNewUrlParser: true
-});
+mongoose.connect('mongodb://localhost/NodeJs-practice-netac-course', {useNewUrlParser: true});
 
 // users tábla model.
 var users = require('./models/users');
 users.setConnection(mongoose);
-/*users.create({
-    name: "John Doe",
-    email: "JohnDoe@gmail.com",
-    phone: "06202965212",
-    address: "1122 Budapest Kis Utca 10",
-    role: 3,
-    meta: {
-        birthday: new Date("1994-08-02"),
-        hobby: "golf",
-    }
+users.create({
+  name: "Jason Statham",
+  email: "js@gmail.com",
+  phone: "06202965212",
+  address: "1122 Budapest Kis Utca 10",
+  role: 3,
+  meta: {
+    birthday: new Date("1994-08-02"),
+    hobby: "golf"
+  }
 }, function (saved) {
-    console.info("Saved model:", saved);
-});*/
+  console.info("Saved model:", saved);
+});
 
 //Dokumentum törlése
 users.getModel().deleteOne({
@@ -40,7 +38,7 @@ users.getModel().deleteOne({
 users.getModel().updateOne({
     name: new RegExp('jason', 'i')
   }, {
-    girlFriend: 'Kelly Rose'
+    girlFriend: 'Kelly'
   },
   function (err, user) {
     if (err)
@@ -49,10 +47,10 @@ users.getModel().updateOne({
 
 //Első találat a feltételek alapján
 users.first({
-  "name": RegExp("jason", 'gi')
-}, function (users) {
-  if (users !== null) {
-    console.info("username: ", users);
+  "name": RegExp("jason", 'i')
+}, function (user) {
+  if (user !== null) {
+    console.info("username: ", user);
   } else {
     console.info("no user!");
   }
@@ -66,9 +64,9 @@ users.getModel().isAdmin(2, function (err, data) {
 
 // Globális változók.
 var port = 3500;
-var staticDir = 'build/';
+var staticDir = 'build';
 
-// Létrehozunk egy express példányt.
+// Létrehozunk egy express szerver példányt.
 var app = express();
 app.set('view engine', 'pug')
 app.set('views', './src/view');
@@ -79,16 +77,14 @@ app.use(express.static(staticDir));
 
 app.use(function (req, res, next) {
 
-  console.log(req.headers);
-
   if (req.headers['x-requested-with'] == 'XMLHttpRequest') {
-    res.send(JSON.stringify({
-      'hello': 'world'
-    }));
+    users.getModel().find({}, function (err, data) {
+      res.send(
+        JSON.stringify(data));
+    });
   } else {
     next();
   }
-
 });
 
 // Definiáljuk a szerver működését.

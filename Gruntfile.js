@@ -13,13 +13,15 @@ module.exports = function (grunt) {
                       'src/vendor/angular/angular.js',
               'src/vendor/angular-currency-filter/currencyModule.js',
                       'src/js/main.js',
-             'src/js/controllers/**.js'],
+             'src/js/factory/**.js',
+              'src/js/controllers/**.js',
+             ],
         dest: 'build/js/all.js'
       }
     },
     watch: {
       scripts: {
-        files: ['src/**/*.js', 'src/**/*.css', 'src/**/*.html', 'src/**/*.pug'],
+        files: ['src/**/*.js', 'src/**/*.css', 'src/**/*.html', 'src/**/*.pug','Gruntfile.js'],
         tasks: ['dev'],
         options: {
           spawn: false,
