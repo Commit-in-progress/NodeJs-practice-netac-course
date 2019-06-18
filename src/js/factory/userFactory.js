@@ -20,6 +20,23 @@ superhero.factory("userFactory", [
         return deferred.promise;
 
       },
+
+      getOne:function(id){
+
+         // Új defer példány
+        var deferred = $q.defer();
+
+        // Felhasználók lekérése.
+        $http.get('/users/'+id)
+          .then(function (serverData) {
+            deferred.resolve(serverData.data);
+        },function(err){
+          deferred.reject(err);
+          });
+        //Visszatérés a promise objektummal.
+        return deferred.promise;
+      },
+
       saveUser: function(row){
         // Új defer példány
         var deferred = $q.defer();
