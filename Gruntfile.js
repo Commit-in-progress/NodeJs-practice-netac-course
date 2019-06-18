@@ -9,10 +9,10 @@ module.exports = function (grunt) {
       },
       build: {
         src: ['src/vendor/jquery/dist/jquery.min.js',
-                      'src/vendor/bootstrap/dist/js/bootstrap.min.js',
-                      'src/vendor/angular/angular.js',
+              'src/vendor/bootstrap/dist/js/bootstrap.min.js',
+              'src/vendor/angular/angular.js',
               'src/vendor/angular-currency-filter/currencyModule.js',
-                      'src/js/main.js',
+              'src/js/main.js',
              'src/js/factory/**.js',
               'src/js/controllers/**.js',
              ],
@@ -40,18 +40,6 @@ module.exports = function (grunt) {
             dest: 'build/',
             filter: 'isFile'
                     },
-          {
-            expand: true,
-            cwd: "src/",
-            src: ['vendor/**'],
-            dest: 'build/',
-                    },
-          {
-            expand: true,
-            cwd: "src/vendor/bootstrap/",
-            src: ['fonts/**'],
-            dest: 'build/'
-           }
     ]
       }
     },
@@ -75,7 +63,10 @@ module.exports = function (grunt) {
       },
       target: {
         files: {
-          'build/css/all.min.css': ['src/vendor/bootstrap/dist/css/bootstrap.min.css']
+          'build/css/all.min.css': [
+            'src/vendor/bootstrap/dist/css/bootstrap.min.css',
+            'src/css/**/*.css'
+          ]
         }
       }
     },
