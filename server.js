@@ -4,63 +4,15 @@ var fs = require('fs');
 var mongoose = require('mongoose');
 
 // Kapcsolódás az adatbázishoz (mongoDb)
-mongoose.connect('mongodb://localhost/NodeJs-practice-netac-course', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/NodeJs-practice-netac-course', {
+  useNewUrlParser: true
+});
 
 // users tábla model.
-var users = require('./models/users');
-users.setConnection(mongoose);
-users.create({
-  name: "Jason Statham",
-  email: "js@gmail.com",
-  phone: "06202965212",
-  address: "1122 Budapest Kis Utca 10",
-  role: 3,
-  meta: {
-    birthday: new Date("1994-08-02"),
-    hobby: "golf"
-  }
-}, function (saved) {
-  console.info("Saved model:", saved);
-});
+var models = {};
+models.users = require('./models/users');
+models.users.setConnection(mongoose);
 
-//Dokumentum törlése
-users.getModel().deleteOne({
-  'name': new RegExp('jack', 'i')
-}, function (err, rem) {
-  if (err)
-    console.error(err);
-  else {
-    console.log(rem.result);
-  }
-})
-
-//Dokumentum frissítése.
-users.getModel().updateOne({
-    name: new RegExp('jason', 'i')
-  }, {
-    girlFriend: 'Kelly'
-  },
-  function (err, user) {
-    if (err)
-      console.error(err);
-  });
-
-//Első találat a feltételek alapján
-users.first({
-  "name": RegExp("jason", 'i')
-}, function (user) {
-  if (user !== null) {
-    console.info("username: ", user);
-  } else {
-    console.info("no user!");
-  }
-});
-
-// Admin visszaadása.
-users.getModel().isAdmin(2, function (err, data) {
-  console.log(err);
-  console.log(data);
-});
 
 // Globális változók.
 var port = 3500;
@@ -75,16 +27,58 @@ app.set('views', './src/view');
 // Statikus fájlok.
 app.use(express.static(staticDir));
 
-app.use(function (req, res, next) {
+app.use('/:model/:id*?', function (req, res, next) {
 
-  if (req.headers['x-requested-with'] == 'XMLHttpRequest') {
-    users.getModel().find({}, function (err, data) {
-      res.send(
-        JSON.stringify(data));
-    });
-  } else {
-    next();
+    if (req.headers['x-requested-with'] == 'XMLHttpRequest') {
+      console.log(req.method);
+      switch (req.method.toLowerCase()) {
+        case 'get':
+          models[req.params.model].getModel().find({}, function (err, data) {
+            res.send(
+              JSON.stringify(data));
+          });
+          break;
+        case 'post':
+          // Adatcsomagok fogadása
+          var requestBody = '';
+          req.on("data", function (package) {
+            requestBody += package;
+          });
+          req.on("end", function () {
+            requestBody = JSON.parse(requestBody);
+            var newData = {};
+            for (var k in requestBody) {
+              if (k == '_id') {
+                continue;
+              }
+              newData[k] = requestBody[k];
+            }
+            models[req.params.model].getModel().updateOne({
+                _id: requestBody._id
+              }, newData,
+              function (err, user) {
+                res.send('{"succes": "true}');
+              });
+          });
+          break;
+        case 'delete':
+          if (req.params.id) {
+            var where = {_id:req.params.id};
+            models[req.params.model].getModel().remove(where,function(err, rem) {
+              if (err) console.error(err);
+              res.send('{"succes": "true"}');
+            });
+          }else {
+              res.send('{"error": "no id"}');
+            }
+    break;
+    default:
+    res.send('{"error": "unsupported method}');
   }
+}
+else {
+  next();
+}
 });
 
 // Definiáljuk a szerver működését.
