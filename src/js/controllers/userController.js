@@ -1,38 +1,42 @@
 superhero.controller("userController", [
   "$scope",
   "userService",
-  "userFactory",
-  function ($scope, userService, userFactory) {
+  "$timeout",
+  function ($scope, userService, $timeout) {
 
     // Felhasználók
     $scope.users = [];
     $scope.ths = ['#', 'name', 'email', 'phone','actions'];
     $scope.newUser={};
     $scope.formError={};
+    $scope.showTable=false;
 
     // Felhasználók lekérése.
     userService.getAll()
       .then(function (userData) {
         $scope.users = userData;
+      $timeout(function(){
+        $scope.showTable=true;
+      },500);
       }, function (err) {
         console.error("Error while getting user data", err);
       });
     // Egy felhasználó lekérése
-    userFactory.getOne('5d08d3166554d02ad487f66d')
+    userService.getOne('5d08d3166554d02ad487f66d')
       .then(function(user){
       console.info('John Doe:',user);
     });
 
     // Adatok frissítése.
     $scope.updateRecord=function(row){
-      userFactory.saveUser(row)
+      userService.saveUser(row)
       .then(function(){
         alert("user saved!")
       })
     }
     // Adatsor törlése
     $scope.deleteUser=function(row){
-      userFactory.deleteUser(row)
+      userService.deleteUser(row)
       .then(function(deleted){
         if(deleted.succes){
           var index= $scope.users.indexOf(row);
@@ -47,7 +51,7 @@ superhero.controller("userController", [
     // Adatok ellenőrzése
     $scope.checkNewUser=function(row){
       $scope.formError={};
-      var fields=["name","email","phone"]
+      var fields=['name','email','phone'];
       var returnValue=true;
       for(var k in fields)
         {
@@ -61,9 +65,9 @@ superhero.controller("userController", [
 
     // Új record beszúrása
     $scope.insertRecord=function(row){
-      if($scope.checkNewUser(row))
+      if(!$scope.checkNewUser(row))
           return;
-      userFactory.insertUser(row)
+      userService.insertUser(row)
       .then(function(newUser){
 
         $scope.users.push(newUser);

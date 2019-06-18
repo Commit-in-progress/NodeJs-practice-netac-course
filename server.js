@@ -10,11 +10,12 @@ mongoose.connect('mongodb://localhost/NodeJs-practice-netac-course', {
   useNewUrlParser: true
 });
 
-// users tábla model.
+// Modellek beolvasása.
 var models = {};
 models.users = require('./models/users');
 models.users.setConnection(mongoose);
-
+models.orders = require('./models/orders');
+models.orders.setConnection(mongoose);
 
 // Globális változók.
 var port = 3500;
