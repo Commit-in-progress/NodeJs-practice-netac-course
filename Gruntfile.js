@@ -21,7 +21,7 @@ module.exports = function (grunt) {
     },
     watch: {
       scripts: {
-        files: ['src/**/*.js', 'src/**/*.css', 'src/**/*.html', 'src/**/*.pug','Gruntfile.js'],
+        files: ['src/**/*.js', 'src/**/*.css', 'src/**/*.html', 'src/**/*.pug', 'Gruntfile.js'],
         tasks: ['dev'],
         options: {
           spawn: false,
@@ -45,7 +45,13 @@ module.exports = function (grunt) {
             cwd: "src/",
             src: ['vendor/**'],
             dest: 'build/',
-                    }
+                    },
+          {
+            expand: true,
+            cwd: "src/vendor/bootstrap/",
+            src: ['fonts/**'],
+            dest: 'build/'
+           }
     ]
       }
     },
