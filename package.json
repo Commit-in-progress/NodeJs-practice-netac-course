@@ -17,7 +17,7 @@
     "mime-types": "~2.1.6",
     "mongoose": "^5.5.15",
     "negotiator": "0.5.3",
-    "pug": "2.0.3",
+    "pug": "3.0.1",
     "underscore.string": "^3.3.5"
   },
   "description": "My first test package.",
